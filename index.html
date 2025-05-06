@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manjil Sharma - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff; 
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Section Indicator */
+        .section-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: rgba(26, 26, 26, 0.7);
+            padding: 15px 10px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-indicator .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #4a4a4a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-indicator .dot.active {
+            background-color: #ff4d4d;
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
+
+        .section-indicator .dot:hover {
+            transform: scale(1.2);
+        }
+        
+        .section-indicator .dot::after {
+            content: attr(data-section);
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%) scale(0.7);
+            background-color: #333;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #ff4d4d;
+        }
+        
+        .section-indicator .dot:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) scale(1);
+            right: 35px;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: rgba(26, 26, 26, 0.95);
+            padding: 1rem 2rem;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.7rem 2rem;
+            background-color: rgba(26, 26, 26, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ff4d4d;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ff4d4d;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: #ff4d4d;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+        
+        .nav-links a:hover::after {
+            width: 70%;
+            opacity: 0.5;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+            opacity: 1;
+            height: 3px;
+            background-color: #ff4d4d;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .sign-in-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-left: 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sign-in-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .sign-in-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 77, 77, 0.4);
+        }
+        
+        .sign-in-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Hero Section */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 2rem;
+            background-color: #1a1a1a;
+            position: relative;
+        }
+
+        #home::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: #ff4d4d;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+
+        .hero-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #ff4d4d, #800000);
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 5px solid rgba(255, 77, 77, 0.3);
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.4);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-text {
+            text-align: left;
+            max-width: 600px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .hero-text h2 {
+            font-size: 1.8rem;
+            color: #ff4d4d;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            margin-bottom: 1.5rem;
+            display: flex;
+        }
+
+        .social-links a {
+            margin-right: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) saturate(100%) invert(26%) sepia(64%) saturate(7492%) hue-rotate(356deg) brightness(102%) contrast(102%);
+        }
+
+        .hire-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .hire-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+
+        /* Services Section */
+        #services {
+            min-height: 80vh;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background-color: #222222;
+            position: relative;
+        }
+
+        #services::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid #ff4d4d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 1.5rem;
+            background-color: rgba(255, 77, 77, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-icon i {
+            font-size: 2rem;
+            color: #ff4d4d;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+           color: #cccccc; 
+        }
+
+        /* Skills Section */
+        #skills {
+            min-height: 80vh;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background-color: #1a1a1a;
+            position: relative;
+        }
+
+        #skills::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+        }
+
+        #skills h2 {
+            font-size: 2.5rem;
+        }
+
+        .skills-grid {
+            max-width: 1000px;
+            margin: 3rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-card img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            background-color: #473d3d; 
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .skill-card span {
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Projects Section */
+        #projects {
+            min-height: 80vh;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background-color: #222222;
+            position: relative;
+        }
+
+        #projects::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+        }
+
+        .projects-container {
+            max-width: 1000px;      /*   Here is place to change size of container of project image */
+            margin: 3rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid #ff4d4d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-image {
+            width: 95%;
+            height: 400px;  /*  Here YOU CAN INCREASE HEIGHT OF PROJECT IMAGE */
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ff4d4d;
+        }
+
+        .project-card p {
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .project-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .project-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+
+        /* Education Section */
+        #education {
+            min-height: 80vh;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background-color: #222222;
+            position: relative;
+        }
+
+        #education::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+        }
+
+        #education h2 {
+            font-size: 2.5rem;
+        }
+
+        .education-timeline {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+
+        .education-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ff4d4d;
+            transform: translateX(-50%);
+        }
+
+        .education-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
+            padding: 0 40px;
+        }
+
+        .education-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .education-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .education-item::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #ff4d4d;
+            border-radius: 50%;
+            top: 5px;
+        }
+
+        .education-item:nth-child(odd)::before {
+            right: -8px;
+        }
+
+        .education-item:nth-child(even)::before {
+            left: -8px;
+        }
+
+        .education-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #ff4d4d;
+        }
+
+        .education-item p {
+            color: #cccccc;
+        }
+
+        .education-date {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Contact Section */
+        #contact {
+            min-height: 80vh;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            background-color: #1a1a1a;
+        }
+
+        #contact h2 {
+            font-size: 2.5rem;
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 3rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-info {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .contact-form {
+            background-color: #2d2d2d;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .contact-info h3,
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ff4d4d;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 77, 77, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .contact-icon i {
+            color: #ff4d4d;
+            font-size: 1.2rem;
+        }
+
+        .contact-text h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-text p {
+            color: #cccccc;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cccccc;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+
+        /* Sign In Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #2d2d2d 0%, #252525 100%);
+            border-radius: 15px;
+            max-width: 480px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.4s ease;
+            overflow: hidden;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #ff4d4d;
+            transform: rotate(90deg);
+        }
+
+        .auth-header {
+            background-color: #1a1a1a;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid #ff4d4d;
+        }
+
+        .auth-header h2 {
+            color: #ff4d4d;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: #cccccc;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            background-color: #222222;
+        }
+
+        .auth-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: #cccccc;
+        }
+
+        .auth-tabs .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: #ff4d4d;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .auth-tabs .tab.active {
+            color: #ff4d4d;
+            background-color: #2d2d2d;
+        }
+
+        .auth-tabs .tab.active::after {
+            width: 70%;
+        }
+
+        .auth-tabs .tab:hover {
+            color: #ffffff;
+            background-color: #2a2a2a;
+        }
+
+        .auth-body {
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            transition: all 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 3rem 0.9rem 2.5rem;
+            border: 1px solid #444;
+            border-radius: 10px;
+            background-color: #333;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.15);
+            background-color: #3a3a3a;
+        }
+
+        .form-control:focus + i {
+            color: #ff4d4d;
+            font-size: 1.1rem;
+        }
+
+        .password-toggle:hover {
+            color: #ff4d4d;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn.google:hover {
+            background-color: #db4437;
+            transform: scale(1.1);
+        }
+
+        .social-btn.facebook:hover {
+            background-color: #3b5998;
+            transform: scale(1.1);
+        }
+
+        .social-btn.twitter:hover {
+            background-color: #1da1f2;
+            transform: scale(1.1);
+        }
+
+        .social-btn i {
+            color: #fff;
+            font-size: 1.4rem;
+        }
+
+        .social-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -30px;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            top: -40px;
+        }
+
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #999;
+        }
+
+        .divider span {
+            background-color: #2d2d2d;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #444;
+            z-index: 0;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+
+        .forgot-password a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #cccccc;
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-footer {
+            text-align: center;
+            padding: 1.5rem;
+            border-top: 1px solid #444;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .form-footer a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222222;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-social {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social a {
+            margin: 0 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            transform: translateY(-5px);
+        }
+
+        .footer-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #ff4d4d;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .copyright {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-indicator {
+                display: none;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-logo {
+                margin-bottom: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+                width: 100%;
+                justify-content: center;
+                gap: 0.5rem; /* Added gap for spacing between links */
+            }
+
+            .nav-links a {
+                margin: 0.3rem 0; /* Adjusted margin for vertical spacing */
+                font-size: 0.9rem;
+                flex: 0 0 33%; /* Each link takes up roughly 33% to fit 3 per row */
+                text-align: center; /* Center the text */
+            }
+
+            .nav-links a[href="sign in.html"] {
+                flex: 0 0 100%; /* Sign In takes full width */
+                margin-top: 0.5rem; /* Added spacing above Sign In */
+            }
+
+            .sign-in-btn {
+                margin: 0.5rem 0;
+            }
+
+            /* Home Section Adjustments */
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2.5rem; /* Increased gap for better spacing */
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem; /* Reduced font size for better readability */
+                margin-bottom: 1rem; /* Increased margin for spacing */
+            }
+
+            .hero-text h2 {
+                font-size: 1.2rem; /* Reduced font size */
+                margin-bottom: 1.5rem; /* Increased margin */
+            }
+
+            .hero-text p {
+                font-size: 1rem; /* Slightly reduced font size */
+                line-height: 1.8; /* Increased line height for readability */
+                padding: 0 1rem; /* Added padding for better text wrapping */
+            }
+
+            .social-links {
+                justify-content: center;
+                margin-bottom: 2rem; /* Increased margin */
+            }
+
+            .hero-image {
+                width: 200px;
+                height: 200px;
+            }
+
+            /* Services Section Adjustments */
+            #services {
+                padding: 4rem 1rem; /* Reduced padding to fit content better */
+            }
+
+            .services-container {
+                grid-template-columns: 1fr; /* Single column for better spacing */
+                gap: 2.5rem; /* Increased gap between cards */
+                padding: 0 1rem; /* Added padding for better alignment */
+            }
+
+            .service-card {
+                padding: 1.5rem; /* Slightly reduced padding */
+            }
+
+            .service-card h3 {
+                font-size: 1.3rem; /* Reduced font size */
+                margin-bottom: 1.2rem; /* Increased margin */
+            }
+
+            .service-card p {
+                font-size: 0.95rem; /* Reduced font size */
+                line-height: 1.7; /* Increased line height */
+            }
+
+            .service-icon {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 1.8rem; /* Increased margin */
+            }
+
+            /* Skills Section Adjustments */
+            #skills {
+                padding: 4rem 1rem; /* Reduced padding */
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Reduced min width */
+                gap: 2rem; /* Increased gap */
+                padding: 1.5rem; /* Reduced padding */
+            }
+
+            .skill-card img {
+                width: 50px; /* Reduced size */
+                height: 50px;
+                margin-bottom: 1.2rem; /* Increased margin */
+            }
+
+            .skill-card span {
+                font-size: 0.9rem; /* Reduced font size */
+            }
+
+            /* Existing Education Section Responsiveness */
+            .education-timeline::before {
+                left: 20px;
+            }
+
+            .education-item {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 0;
+                text-align: left;
+            }
+
+            .education-item:nth-child(odd) {
+                left: 0;
+                text-align: left;
+            }
+
+            .education-item:nth-child(even) {
+                left: 0;
+            }
+
+            .education-item:nth-child(odd)::before,
+            .education-item:nth-child(even)::before {
+                left: 12px;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Section Indicator -->
+    <div class="section-indicator">
+        <a href="#home" class="dot active" data-section="Home"></a>
+        <a href="#services" class="dot" data-section="Services"></a>
+        <a href="#skills" class="dot" data-section="Skills"></a>
+        <a href="#projects" class="dot" data-section="Projects"></a>
+        <a href="#education" class="dot" data-section="Education"></a>
+        <a href="#contact" class="dot" data-section="Contact"></a>
+    </div>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">Manjil Sharma</div>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#services">Services</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#contact">Contact</a>
+                <a href="sign in.html" id="open-auth-modal">Sign In</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="Images for portfolio/Manjil1.jpg" alt="Manjil Sharma">
+            </div>
+            <div class="hero-text">
+                <h1>Hi, It's Manjil</h1>
+                <h2 id="role-text">I'm an aspiring Software Developer</h2>
+                 <p>Hello everyone I am Manjil Sharma soon to be an undergraduate student specializing in AI based Software Development. I have some knowledge in HTML, CSS, and JavaScript and am a beginner in Python.</p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
+                    </a>
+                    <a href="https://www.instagram.com/manjil_dhungana2/" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram">
+                    </a>
+                    <a href="mailto:manjilsharma595@gmail.com" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/email.png" alt="Email">
+                    </a>
+                </div>
+                <a href="#contact" class="hire-btn">Hire Me</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title">Services</h2>
+        <div class="services-container">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Web Development</h3>
+                <p>Creating responsive and user-friendly websites using HTML, CSS, and JavaScript to meet your specific needs.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>Graphic Design</h3>
+                <p>Designing eye-catching graphics, logos, and visual elements that effectively communicate your brand message.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h3>Thumbnail Creation</h3>
+                <p>Creating attractive and click-worthy thumbnails for your videos, blogs, and other digital content.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2 class="section-title">Skills</h2>
+          <div class="skills-grid"> 
+            <div class="skill-card">
+                <img src="Images for portfolio/HTML png.webp" alt="HTML">
+                <span>HTML</span>
+            </div>
+            <div class="skill-card">
+                <img src="Images for portfolio/CSS png.png" alt="CSS">
+                <span>CSS</span>
+            </div>
+            <div class="skill-card">
+                <img src="Images for portfolio/javascript png.png" alt="JavaScript">
+                <span>JavaScript</span>
+            </div>
+            <div class="skill-card">
+                <img src="Images for portfolio/python png.png" alt="Python">
+                <span>Python</span>
+            </div>
+            <div class="skill-card">
+                <img src="Images for portfolio/Graphic-design-Inspiration png.jpg" alt="Graphic Design">
+                <span>Graphic Design</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">Recent Project</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="Images for portfolio/fresh kart 2.jpg" alt="Recent Project">
+                </div>
+                <h3>Fresh Kart</h3>
+                <p> At Fresh Kart our aim is to connect consumers directly with local farmers, providing access to fresh, organic produce without middlemen. This ensures high-quality, chemical-free products at fair prices while supporting sustainable farming. It promotes transparency, empowering farmers and offering consumers an easy way to purchase healthier, locally sourced food.</p>
+                <a href="https://manjilsharma.com.np/" target="_blank" class="project-btn">View Project</a>
+               </div>
+        </div>
+    </section>      
+
+    <!-- Education Section -->
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="education-timeline">
+            <div class="education-item">
+                <h3>University Student</h3>
+                <div class="education-date">2025 - Present</div>
+                <p>Bachelor's in Computer Science with specialization in AI-based Software Development</p>
+            </div>
+            <div class="education-item">
+                <h3>High School : Devi Secondary School</h3>
+                <div class="education-date">Graduated</div>
+                <p>Major in Computer Science with strong academic performance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <p>manjilsharma595@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Location</h4>
+                        <p>Jhapa, Nepal</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
+                    </a>
+                    <a href="https://www.instagram.com/manjil_dhungana2/" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram">
+                    </a>
+                    <a href="mailto:manjilsharma595@gmail.com" target="_blank">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/email.png" alt="Email">
+                    </a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Send a Message</h3>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign In/Register Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="auth-header">
+                <h2>Sign In to Your Account</h2>
+                <p>Access your portfolio homepage</p>
+                <div class="close-modal">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <div class="tab active" data-tab="login">Sign In</div>
+                <div class="tab" data-tab="register">Register</div>
+            </div>
+            
+            <!-- Body -->
+            <div class="auth-body">
+                <!-- Login Tab -->
+                <div class="tab-content active" id="login-tab">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <div class="input-group">
+                                <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-group">
+                                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                                <i class="fas fa-lock"></i>
+                                <div class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" checked>
+                            <label for="remember">Keep me signed in</label>
+                        </div>
+                        
+                        <div class="forgot-password">
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Sign In</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <div class="social-btn google" data-tooltip="Sign in with Google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-btn facebook" data-tooltip="Sign in with Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-btn twitter" data-tooltip="Sign in with Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="register-link">
+                        Don't have an account? <a href="#" id="switch-to-register">Create one now</a>
+                    </div>
+                </div>
+                
+                <!-- Register Tab -->
+                <div class="tab-content" id="register-tab">
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="register-name">Full Name</label>
+                            <div class="input-group">
+                                <input type="text" id="register-name" class="form-control" placeholder="Enter your full name" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email">Email Address</label>
+                            <div class="input-group">
+                                <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <div class="input-group">
+                                <input type="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                                <i class="fas fa-lock"></i>
+                                <div class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirm Password</label>
+                            <div class="input-group">
+                                <input type="password" id="register-confirm-password" class="form-control" placeholder="Confirm your password" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Create Account</button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <div class="social-btn google" data-tooltip="Sign up with Google">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-btn facebook" data-tooltip="Sign up with Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-btn twitter" data-tooltip="Sign up with Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="register-link">
+                        Already have an account? <a href="#" id="switch-to-login">Sign in</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="form-footer">
+                <p>By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile" target="_blank">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn">
+                </a>
+                <a href="https://www.instagram.com/manjil_dhungana2/" target="_blank">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/instagram.png" alt="Instagram">
+                </a>
+                <a href="mailto:manjilsharma595@gmail.com" target="_blank">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/email.png" alt="Email">
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#education">Education</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="copyright">
+                © 2025 Manjil Sharma. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Section indicator and navbar active state
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a:not(.sign-in-btn)');
+        const dots = document.querySelectorAll('.section-indicator .dot');
+
+        const setActiveSection = () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - sectionHeight / 3) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+                if (dot.getAttribute('href').slice(1) === current) {
+                    dot.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', setActiveSection);
+        setActiveSection(); // Initial call
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.classList.contains('sign-in-btn')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').slice(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('auth-modal');
+        const openModalBtn = document.getElementById('open-auth-modal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const tabs = document.querySelectorAll('.auth-tabs .tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            showTab('login');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                showTab(tabId);
+            });
+        });
+
+        switchToRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            showTab('register');
+        });
+
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            showTab('login');
+        });
+
+        function showTab(tabId) {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+
+            const headerTitle = tabId === 'login' ? 'Sign In to Your Account' : 'Create a New Account';
+            const headerText = tabId === 'login' ? 'Access your portfolio dashboard' : 'Join our community today';
+            document.querySelector('.auth-header h2').textContent = headerTitle;
+            document.querySelector('.auth-header p').textContent = headerText;
+        }
+
+        // Password toggle visibility
+        document.querySelectorAll('.password-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const input = toggle.parentElement.querySelector('input');
+                const icon = toggle.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+        });
+
+        // Form submissions with loading state
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            btn.classList.add('loading');
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                alert('Login submitted! (This is a demo - no actual login processing)');
+            }, 1500);
+        });
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const btn = e.target.querySelector('.submit-btn');
+            btn.classList.add('loading');
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                } else {
+                    alert('Registration submitted! (This is a demo - no actual registration processing)');
+                }
+            }, 1500);
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('.submit-btn');
+            btn.classList.add('loading');
+            setTimeout(() => {
+                btn.classList.remove('loading');
+                alert('Message submitted! (This is a demo - no actual message processing)');
+            }, 1500);
+        });
+
+        // Social login buttons
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const provider = btn.classList[1];
+                alert(`Sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)} (This is a demo)`);
+            });
+        });
+    </script>
+</body>
+</html>

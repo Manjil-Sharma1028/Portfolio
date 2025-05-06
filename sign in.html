@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Manjil Sharma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 77, 77, 0.1), transparent 70%);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: transparent;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, #2d2d2d 0%, #252525 100%);
+            border-radius: 15px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .auth-header {
+            background-color: #1a1a1a;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid #ff4d4d;
+        }
+
+        .auth-header h2 {
+            color: #ff4d4d;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: #cccccc;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background-color: #222222;
+        }
+
+        .auth-tabs .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: #cccccc;
+        }
+
+        .auth-tabs .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: #ff4d4d;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .auth-tabs .tab.active {
+            color: #ff4d4d;
+            background-color: #2d2d2d;
+        }
+
+        .auth-tabs .tab.active::after {
+            width: 70%;
+        }
+
+        .auth-tabs .tab:hover {
+            color: #ffffff;
+            background-color: #2a2a2a;
+        }
+
+        .auth-body {
+            padding: 2rem;
+            padding-bottom: 3rem;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            transition: all 0.3s ease;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.9rem 3rem 0.9rem 2.5rem;
+            border: 1px solid #444;
+            border-radius: 10px;
+            background-color: #333;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.15);
+            background-color: #3a3a3a;
+        }
+
+        .form-control:valid {
+            border-color: #28a745;
+        }
+
+        .form-control:invalid:not(:focus):not(:placeholder-shown) {
+            border-color: #dc3545;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cccccc;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+            accent-color: #ff4d4d;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .password-toggle:hover {
+            color: #ff4d4d;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #333;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn.google:hover {
+            background-color: #db4437;
+            transform: scale(1.1);
+        }
+
+        .social-btn.facebook:hover {
+            background-color: #3b5998;
+            transform: scale(1.1);
+        }
+
+        .social-btn.twitter:hover {
+            background-color: #1da1f2;
+            transform: scale(1.1);
+        }
+
+        .social-btn i {
+            color: #fff;
+            font-size: 1.4rem;
+        }
+
+        .social-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -30px;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+            top: -40px;
+        }
+
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #999;
+        }
+
+        .divider span {
+            background-color: #2d2d2d;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+            font-size: 0.9rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #444;
+            z-index: 0;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+
+        .forgot-password a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #cccccc;
+            font-size: 0.95rem;
+        }
+
+        .register-link a {
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .form-footer {
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid #444;
+            font-size: 0.85rem;
+            color: #999;
+            background-color: #2d2d2d;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-footer a {
+            color: #ff4d4d;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            background-color: #ff4d4d;
+            color: #ffffff;
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        .submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            background-color: #222222;
+        }
+
+        footer a {
+            color: #ff4d4d;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                width: 95%;
+            }
+
+            .auth-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .auth-tabs .tab {
+                font-size: 1rem;
+            }
+
+            .submit-btn {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Manjil Sharma</a>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h2>Sign In to Your Account</h2>
+            <p>Access your portfolio dashboard</p>
+        </div>
+        
+        <div class="auth-tabs">
+            <div class="tab active" data-tab="login">Sign In</div>
+            <div class="tab" data-tab="register">Register</div>
+        </div>
+        
+        <div class="auth-body">
+            <div class="tab-content active" id="login-tab">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <div class="input-group">
+                            <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                            <i class="fas fa-lock"></i>
+                            <div class="password-toggle">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" checked>
+                        <label for="remember">Keep me signed in</label>
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+                
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="social-login">
+                    <div class="social-btn google" data-tooltip="Sign in with Google">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="social-btn facebook" data-tooltip="Sign in with Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-btn twitter" data-tooltip="Sign in with Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </div>
+                
+                <div class="register-link">
+                    Don't have an account? <a href="#" id="switch-to-register">Create one now</a>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="register-tab">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <div class="input-group">
+                            <input type="text" id="register-name" class="form-control" placeholder="Enter your full name" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Email Address</label>
+                        <div class="input-group">
+                            <input type="email" id="register-email" class="form-control" placeholder="Enter your email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="register-password" class="form-control" placeholder="Create a password" required>
+                            <i class="fas fa-lock"></i>
+                            <div class="password-toggle">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" id="register-confirm-password" class="form-control" placeholder="Confirm your password" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </form>
+                
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="social-login">
+                    <div class="social-btn google" data-tooltip="Sign up with Google">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="social-btn facebook" data-tooltip="Sign up with Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="social-btn twitter" data-tooltip="Sign up with Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                </div>
+                
+                <div class="register-link">
+                    Already have an account? <a href="#" id="switch-to-login">Sign in</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-footer">
+            <p>By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Manjil Sharma. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded, initializing scripts...');
+
+            // Tab switching
+            const tabs = document.querySelectorAll('.auth-tabs .tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const switchToRegister = document.getElementById('switch-to-register');
+            const switchToLogin = document.getElementById('switch-to-login');
+
+            if (!tabs.length || !tabContents.length || !switchToRegister || !switchToLogin) {
+                console.error('Required tab elements not found');
+                return;
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    console.log(`Switching to tab: ${tabId}`);
+                    showTab(tabId);
+                });
+            });
+
+            switchToRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Switching to register tab');
+                showTab('register');
+            });
+
+            switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Switching to login tab');
+                showTab('login');
+            });
+
+            function showTab(tabId) {
+                try {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    const tabElement = document.querySelector(`.tab[data-tab="${tabId}"]`);
+                    const contentElement = document.getElementById(`${tabId}-tab`);
+
+                    if (!tabElement || !contentElement) {
+                        throw new Error(`Tab or content not found for tabId: ${tabId}`);
+                    }
+
+                    tabElement.classList.add('active');
+                    contentElement.classList.add('active');
+
+                    const headerTitle = tabId === 'login' ? 'Sign In to Your Account' : 'Create a New Account';
+                    const headerText = tabId === 'login' ? 'Access your portfolio dashboard' : 'Join our community today';
+                    document.querySelector('.auth-header h2').textContent = headerTitle;
+                    document.querySelector('.auth-header p').textContent = headerText;
+                } catch (error) {
+                    console.error('Error in showTab:', error);
+                }
+            }
+
+            // Password toggle visibility
+            document.querySelectorAll('.password-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    try {
+                        const input = toggle.parentElement.querySelector('input');
+                        const icon = toggle.querySelector('i');
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            icon.classList.replace('fa-eye', 'fa-eye-slash');
+                        } else {
+                            input.type = 'password';
+                            icon.classList.replace('fa-eye-slash', 'fa-eye');
+                        }
+                    } catch (error) {
+                        console.error('Error in password toggle:', error);
+                    }
+                });
+            });
+
+            // Login form submission
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    try {
+                        const btn = loginForm.querySelector('.submit-btn');
+                        btn.classList.add('loading');
+                        console.log('Login form submitted');
+                        setTimeout(() => {
+                            btn.classList.remove('loading');
+                            alert('Login successful');
+                            console.log('Attempting to redirect to index.html');
+                            window.location.assign('index.html');
+                        }, 500);
+                    } catch (error) {
+                        console.error('Error in login form submission:', error);
+                        alert('An error occurred during login. Please try again.');
+                    }
+                });
+            } else {
+                console.error('Login form not found');
+            }
+
+            // Register form submission
+            const registerForm = document.getElementById('register-form');
+            if (registerForm) {
+                registerForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    try {
+                        const password = document.getElementById('register-password').value;
+                        const confirmPassword = document.getElementById('register-confirm-password').value;
+                        const btn = registerForm.querySelector('.submit-btn');
+                        btn.classList.add('loading');
+                        console.log('Register form submitted');
+                        setTimeout(() => {
+                            btn.classList.remove('loading');
+                            if (password !== confirmPassword) {
+                                alert('Passwords do not match!');
+                                console.log('Password mismatch');
+                            } else {
+                                alert('Registration successful');
+                                console.log('Registration successful');
+                            }
+                        }, 500);
+                    } catch (error) {
+                        console.error('Error in register form submission:', error);
+                        alert('An error occurred during registration. Please try again.');
+                    }
+                });
+            } else {
+                console.error('Register form not found');  
+            }
+
+            // Social login buttons
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    try {
+                        const provider = btn.classList[1];
+                        alert(`Sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)} (This is a demo)`);
+                        console.log(`Social login clicked: ${provider}`);
+                    } catch (error) {
+                        console.error('Error in social login:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
